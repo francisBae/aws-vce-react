@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuizStore } from '../store/quizStore';
 import { QuestionCard } from '../components/QuestionCard';
 import styled from 'styled-components';
@@ -99,12 +99,20 @@ const StatsValue = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  @media (max-width: 640px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const StatsPercentage = styled.span`
   font-size: 1rem;
   color: #6b7280;
   font-weight: normal;
+
+  @media (max-width: 640px) {
+    font-size: 0.875rem;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -114,16 +122,90 @@ const ButtonGroup = styled.div`
   margin-top: 2rem;
 `;
 
+const TopButton = styled.button`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #64748b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  opacity: 0;
+  visibility: hidden;
+
+  &:hover {
+    background: #475569;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (max-width: 640px) {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+`;
+
 const ResultPage: React.FC = () => {
   const { filtered, answers, reset, retryWrongAnswers, examMode } = useQuizStore();
   const navigate = useNavigate();
+  const [showTopButton, setShowTopButton] = useState(false);
   
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (examMode) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [examMode]);
+
   useEffect(() => {
     if (examMode?.mode === 'practice') {
       console.log('실전 모드 examMode:', examMode);
       console.log('채점 대상 문제:', examMode.scoredQuestions);
     }
   }, [examMode]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setShowTopButton(scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   // 정답 계산
   const correctAnswers = filtered.filter(q => {
@@ -301,18 +383,25 @@ const ResultPage: React.FC = () => {
         {wrongCount > 0 && (
           <Button onClick={() => {
             retryWrongAnswers();
-            navigate('/');
+            navigate('/quiz');
           }}>
             틀린 문제만 다시 풀기
           </Button>
         )}
         <Button onClick={() => {
           reset();
-          navigate('/exam-setting');
+          navigate('/');
         }} variant="secondary">
           새로운 시험 시작하기
         </Button>
       </ButtonGroup>
+      <TopButton 
+        onClick={scrollToTop}
+        className={showTopButton ? 'visible' : ''}
+        aria-label="맨 위로 이동"
+      >
+        ↑
+      </TopButton>
     </Container>
   );
 };

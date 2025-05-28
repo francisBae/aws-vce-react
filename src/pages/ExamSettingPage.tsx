@@ -150,12 +150,12 @@ const ExamSettingPage: React.FC = () => {
       isRandom: mode === 'range' ? isRandom : undefined
     });
 
-    navigate('/');
+    navigate('/quiz');
   };
 
   return (
     <Container>
-      <Title>시험 모드 설정</Title>
+      <Title>AIF-C01 시험 모드 설정</Title>
       <SettingCard>
         <SettingTitle>문제 선택 방식</SettingTitle>
         <OptionGroup>

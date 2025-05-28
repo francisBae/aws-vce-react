@@ -180,7 +180,7 @@ const QuizPage: React.FC = () => {
   const handleRestart = () => {
     if (window.confirm('시험을 다시 시작하시겠습니까? 모든 진행 상황이 초기화됩니다.')) {
       clearExamMode();
-      navigate('/exam-setting');
+      navigate('/');
     }
   };
 

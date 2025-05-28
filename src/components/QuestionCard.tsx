@@ -1,5 +1,4 @@
 import React from 'react';
-import type { ReactNode } from 'react';
 import styled from 'styled-components';
 import type { Question } from '../types/question';
 
@@ -9,6 +8,22 @@ const Card = styled.div`
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 2rem;
   margin: 1rem 0;
+`;
+
+const CustomNumber = styled.span`
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  background: #f3f4f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  margin-right: 0.75rem;
+  display: inline-block;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+    padding: 0.2rem 0.6rem;
+  }
 `;
 
 const ScoreButton = styled.span<{ $isScored: boolean }>`
@@ -146,7 +161,7 @@ interface Props {
   showAnswer?: boolean;
   onShowAnswer?: () => void;
   hideNumber?: boolean;
-  customNumber?: ReactNode;
+  customNumber?: string;
   hideAnswerButton?: boolean;
 }
 
@@ -204,41 +219,23 @@ export const QuestionCard: React.FC<Props> = ({
     }
   };  
 
-  const renderCustomNumber = () => {
-    if (!customNumber) return null;
-    
-    if (typeof customNumber === 'string') {
-      // 실전 모드에서 채점 포함/제외 표시
-      if (customNumber.includes('[채점 포함]')) {
-        return (
-          <>
-            <ScoreButton $isScored={true}>채점 포함</ScoreButton>
-            <span>{customNumber.replace('[채점 포함]', '').trim()}</span>
-          </>
-        );
-      }
-      if (customNumber.includes('[채점 제외]')) {
-        return (
-          <>
-            <ScoreButton $isScored={false}>채점 제외</ScoreButton>
-            <span>{customNumber.replace('[채점 제외]', '').trim()}</span>
-          </>
-        );
-      }
-      return customNumber;
-    }
-    
-    return customNumber;
-  };
-
   return (
     <Card>
       <Title>
-        {!hideNumber && (
+        {customNumber ? (
           <>
-            {renderCustomNumber() || `${question.number}.`}
-            <br />
+            {customNumber.includes('[채점 포함]') && (
+              <ScoreButton $isScored={true}>채점 포함</ScoreButton>
+            )}
+            {customNumber.includes('[채점 제외]') && (
+              <ScoreButton $isScored={false}>채점 제외</ScoreButton>
+            )}
+            <CustomNumber>
+              {customNumber.replace(/\[채점 (포함|제외)\] /g, '')}
+            </CustomNumber>
           </>
+        ) : !hideNumber && (
+          <span>문제 {question.number}</span>
         )}
         {question.text}
       </Title>
