@@ -1744,6 +1744,18 @@ export const questions: Question[] = [
     }
   },
   {
+    "number": 144,
+    "text": "Empty question",
+    "options": [
+      "Choose A",
+      "Choose A",
+      "Choose A",
+      "Choose A"
+    ],
+    "answer": "A",
+    "link": ""
+  },
+  {
     "number": 145,
     "text": "Which option is a benefit of using Amazon SageMaker Model Cards to document AI models?",
     "options": [
