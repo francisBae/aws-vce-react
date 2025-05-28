@@ -1,4 +1,5 @@
 import React from 'react';
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
 import type { Question } from '../types/question';
 
@@ -10,9 +11,30 @@ const Card = styled.div`
   margin: 1rem 0;
 `;
 
+const ScoreButton = styled.span<{ $isScored: boolean }>`
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 0.75rem;
+  background-color: ${props => props.$isScored ? '#dcfce7' : '#fee2e2'};
+  color: ${props => props.$isScored ? '#166534' : '#991b1b'};
+  border: 1px solid ${props => props.$isScored ? '#86efac' : '#fecaca'};
+`;
+
 const Title = styled.h2`
   font-size: 1.2rem;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+    font-weight: 500;
+  }
 `;
 
 const QuestionImage = styled.div`
@@ -23,6 +45,16 @@ const AnswerSection = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
+
+  strong {
+    font-size: 1rem;
+    font-weight: 600;
+
+    @media (max-width: 640px) {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
 `;
 
 const OptionList = styled.ul`
@@ -51,9 +83,25 @@ const Option = styled.li<{
   padding: 0.75rem 1rem;
   cursor: ${({$disabled}) => $disabled ? 'not-allowed' : 'pointer'};
   transition: all 0.2s ease;
+  font-size: 1rem;
+  
+  @media (max-width: 640px) {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.4rem;
+  }
   
   &:hover {
     background: ${({$disabled}) => $disabled ? 'inherit' : '#e5e7eb'};
+  }
+
+  b {
+    font-weight: 600;
+    margin-right: 0.5rem;
+
+    @media (max-width: 640px) {
+      font-weight: 500;
+    }
   }
 `;
 
@@ -98,6 +146,8 @@ interface Props {
   showAnswer?: boolean;
   onShowAnswer?: () => void;
   hideNumber?: boolean;
+  customNumber?: ReactNode;
+  hideAnswerButton?: boolean;
 }
 
 export const QuestionCard: React.FC<Props> = ({ 
@@ -106,7 +156,9 @@ export const QuestionCard: React.FC<Props> = ({
   onSelect, 
   showAnswer = false,
   onShowAnswer,
-  hideNumber = false
+  hideNumber = false,
+  customNumber,
+  hideAnswerButton = false
 }) => {
   const isAnswerCorrect = (letter: string) => {
     if (!showAnswer) return false;
@@ -150,12 +202,44 @@ export const QuestionCard: React.FC<Props> = ({
     if (onShowAnswer) {
       onShowAnswer();
     }
+  };  
+
+  const renderCustomNumber = () => {
+    if (!customNumber) return null;
+    
+    if (typeof customNumber === 'string') {
+      // 실전 모드에서 채점 포함/제외 표시
+      if (customNumber.includes('[채점 포함]')) {
+        return (
+          <>
+            <ScoreButton $isScored={true}>채점 포함</ScoreButton>
+            <span>{customNumber.replace('[채점 포함]', '').trim()}</span>
+          </>
+        );
+      }
+      if (customNumber.includes('[채점 제외]')) {
+        return (
+          <>
+            <ScoreButton $isScored={false}>채점 제외</ScoreButton>
+            <span>{customNumber.replace('[채점 제외]', '').trim()}</span>
+          </>
+        );
+      }
+      return customNumber;
+    }
+    
+    return customNumber;
   };
 
   return (
     <Card>
       <Title>
-        {!hideNumber && `${question.number}. `}
+        {!hideNumber && (
+          <>
+            {renderCustomNumber() || `${question.number}.`}
+            <br />
+          </>
+        )}
         {question.text}
       </Title>
       {question.images?.question && (
@@ -185,7 +269,7 @@ export const QuestionCard: React.FC<Props> = ({
         })}
       </OptionList>
       
-      {(selected || question.images?.answer) && (
+      {!hideAnswerButton && (selected || question.images?.answer) && (
         <AnswerButton onClick={handleShowAnswer}>
           {showAnswer ? '정답 숨기기' : '정답 확인'}
         </AnswerButton>

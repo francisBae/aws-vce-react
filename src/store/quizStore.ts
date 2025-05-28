@@ -3,12 +3,14 @@ import type { Question } from '../types/question';
 import { questions as questionData } from '../data/questions';
 
 interface ExamMode {
-  mode: 'random' | 'range';
+  mode: 'random' | 'range' | 'practice';  // practice 모드 추가
   questionCount: number;
   startNumber: number;
   endNumber: number;
   isRandom?: boolean;  // 범위 지정 모드에서 랜덤 여부
-  randomOrder?: number[];  // 랜덤 순서를 저장하는 배열 (문제 번호 배열)
+  randomOrder?: number[];
+  isPracticeMode?: boolean;  // 실전 모드 여부
+  scoredQuestions?: number[];  // 점수에 반영될 문제 번호들
 }
 
 interface QuizState {
@@ -31,7 +33,8 @@ interface QuizState {
   setShowAnswer: (show: boolean) => void;
   setExamMode: (mode: ExamMode) => void;
   clearExamMode: () => void;
-  retryWrongAnswers: () => void;  // 틀린 문제만 다시 풀기
+  retryWrongAnswers: () => void;
+  setCurrent: (index: number) => void;
 }
 
 const getInitial = () => {
@@ -92,6 +95,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }
     return state;
   }),
+  setCurrent: (index: number) => set({ current: index, showAnswer: false }),
   reset: () => set(() => {
     localStorage.removeItem('quiz-progress');
     return { 
@@ -121,7 +125,13 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 
       // randomOrder가 있으면 먼저 그 순서대로 정렬
       if (randomOrder) {
-        if (mode === 'random') {
+        if (mode === 'practice') {
+          // 실전 모드에서는 randomOrder에 있는 문제 번호들만 필터링
+          filtered = questions.filter(q => randomOrder.includes(q.number));
+          // randomOrder 순서대로 정렬
+          const orderMap = new Map(randomOrder.map((num, idx) => [num, idx]));
+          filtered.sort((a, b) => (orderMap.get(a.number) ?? 0) - (orderMap.get(b.number) ?? 0));
+        } else if (mode === 'random') {
           // 랜덤 모드에서는 randomOrder에 있는 문제 번호들만 필터링
           filtered = questions.filter(q => randomOrder.includes(q.number));
           // randomOrder 순서대로 정렬
@@ -138,7 +148,21 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         }
       } else {
         // randomOrder가 없는 경우 새로운 순서 생성
-        if (mode === 'random') {
+        if (mode === 'practice') {
+          // 실전 모드에서는 전체 문제에서 랜덤하게 65문제 선택
+          filtered = shuffleArray(questions).slice(0, 65);
+          // 새로운 랜덤 순서를 examMode에 저장
+          const newRandomOrder = filtered.map(q => q.number);
+          // 65문제 중 랜덤하게 50문제를 점수에 반영할 문제로 선택
+          const newScoredQuestions = shuffleArray([...filtered]).slice(0, 50).map(q => q.number);
+          set(state => ({
+            examMode: { 
+              ...state.examMode!, 
+              randomOrder: newRandomOrder,
+              scoredQuestions: newScoredQuestions
+            }
+          }));
+        } else if (mode === 'random') {
           // 랜덤 모드에서는 전체 문제에서 랜덤하게 선택
           filtered = shuffleArray(questions).slice(0, questionCount);
           // 새로운 랜덤 순서를 examMode에 저장
@@ -178,15 +202,23 @@ export const useQuizStore = create<QuizState>((set, get) => ({
       completed, 
       showAnswer,
       examMode,
-      filtered: filtered.map(q => q.number)  // 문제 번호만 저장
+      filtered: filtered.map(q => q.number)
     }));
   },
   setShowAnswer: (show) => set({ showAnswer: show }),
   setExamMode: (mode) => set(state => {
     let filtered = state.questions;
     let randomOrder: number[] | undefined;
+    let scoredQuestions: number[] | undefined;
     
-    if (mode.mode === 'random') {
+    if (mode.mode === 'practice') {
+      // 실전 모드: 전체 문제 중 랜덤하게 65문제 선택
+      const shuffledQuestions = shuffleArray([...state.questions]);
+      filtered = shuffledQuestions.slice(0, 65);
+      randomOrder = filtered.map(q => q.number);
+      // 65문제 중 랜덤하게 50문제를 점수에 반영할 문제로 선택
+      scoredQuestions = shuffleArray([...filtered]).slice(0, 50).map(q => q.number);
+    } else if (mode.mode === 'random') {
       filtered = shuffleArray(state.questions).slice(0, mode.questionCount);
       randomOrder = filtered.map(q => q.number);
     } else {
@@ -200,7 +232,13 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }
 
     return { 
-      examMode: { ...mode, randomOrder },
+      examMode: { 
+        ...mode, 
+        questionCount: mode.mode === 'practice' ? 65 : mode.questionCount,  // 실전 모드일 때는 항상 65문제
+        randomOrder,
+        isPracticeMode: mode.mode === 'practice',
+        scoredQuestions
+      },
       filtered,
       current: 0,
       completed: false,
@@ -219,35 +257,55 @@ export const useQuizStore = create<QuizState>((set, get) => ({
       answers: {}
     };
   }),
-  retryWrongAnswers: () => set(state => {
-    // 틀린 문제 찾기
-    const wrongQuestions = state.filtered.filter(q => {
-      const userAnswer = state.answers[q.number];
-      return userAnswer !== q.answer;
+  retryWrongAnswers: () => {
+    const state = get();
+    const { filtered, answers } = state;
+
+    // 정답 계산
+    const correctAnswers = filtered.filter(q => {
+      const userAnswer = answers[q.number];
+      const correctAnswer = q.answer;
+
+      // 정답이 없는 문제는 자동으로 정답 처리
+      if (!correctAnswer) {
+        return true;
+      }
+
+      // 복수 선택 문제 처리
+      if (q.isMultipleChoice) {
+        if (!userAnswer || !Array.isArray(userAnswer)) return false;
+        const sortedUserAnswer = [...userAnswer].sort().join('');
+        const sortedCorrectAnswer = [...correctAnswer].sort().join('');
+        return sortedUserAnswer === sortedCorrectAnswer;
+      }
+
+      // 단일 선택 문제 처리
+      return userAnswer === correctAnswer;
     });
+
+    // 틀린 문제만 필터링
+    const wrongQuestions = filtered.filter(q => !correctAnswers.includes(q));
 
     if (wrongQuestions.length === 0) {
       alert('틀린 문제가 없습니다.');
-      return state;
+      return;
     }
 
-    // 틀린 문제만 필터링하고 순서 섞기
-    const shuffledWrongQuestions = shuffleArray(wrongQuestions);
-
-    return {
-      filtered: shuffledWrongQuestions,
+    // 틀린 문제들로 새로운 시험 모드 설정
+    set(() => ({
+      examMode: {
+        mode: 'random',  // 랜덤 모드로 변경
+        questionCount: wrongQuestions.length,
+        startNumber: 1,  // 범위 모드 대신 랜덤 모드 사용
+        endNumber: state.questions.length,
+        isRandom: true,
+        randomOrder: wrongQuestions.map(q => q.number)  // 틀린 문제 번호들만 저장
+      },
+      filtered: wrongQuestions,  // 틀린 문제들만 필터링
       current: 0,
       completed: false,
       showAnswer: false,
-      answers: {},
-      examMode: {
-        mode: 'range',
-        questionCount: wrongQuestions.length,
-        startNumber: Math.min(...wrongQuestions.map(q => q.number)),
-        endNumber: Math.max(...wrongQuestions.map(q => q.number)),
-        isRandom: true,
-        randomOrder: shuffledWrongQuestions.map(q => q.number)
-      }
-    };
-  })
+      answers: {}
+    }));
+  }
 })); 

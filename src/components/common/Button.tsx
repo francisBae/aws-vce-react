@@ -1,11 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger';
-}
-
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
   background: ${props => {
     switch (props.variant) {
       case 'secondary':
@@ -17,13 +19,7 @@ export const Button = styled.button<ButtonProps>`
     }
   }};
   color: ${props => props.variant === 'secondary' ? '#1f2937' : 'white'};
-  border: none;
-  border-radius: 6px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  
+
   &:hover {
     background: ${props => {
       switch (props.variant) {
@@ -37,9 +33,12 @@ export const Button = styled.button<ButtonProps>`
     }};
   }
 
+  &:active {
+    transform: scale(0.98);
+  }
+
   &:disabled {
-    background: #93c5fd;
+    opacity: 0.5;
     cursor: not-allowed;
-    opacity: 0.7;
   }
 `; 

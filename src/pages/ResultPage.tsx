@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuizStore } from '../store/quizStore';
 import { QuestionCard } from '../components/QuestionCard';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/common/Button';
 
 const Container = styled.div`
   max-width: 800px;
@@ -52,11 +53,6 @@ const ScoreInfo = styled.div`
   font-size: 1.1rem;
 `;
 
-const ScoreLabel = styled.div`
-  color: #4b5563;
-  font-weight: 500;
-`;
-
 const ScoreValue = styled.div<{ $isPassing?: boolean }>`
   color: ${props => props.$isPassing === undefined ? '#1f2937' : props.$isPassing ? '#3b82f6' : '#ef4444'};
   font-weight: 600;
@@ -82,74 +78,141 @@ const StatsGrid = styled.div`
   gap: 1rem;
 `;
 
-const StatsItem = styled.div`
+const StatsItem = styled.div<{ $isScored?: boolean }>`
   padding: 1rem;
-  background: #f9fafb;
+  background: ${props => props.$isScored ? '#e0f2fe' : '#f9fafb'};
   border-radius: 8px;
+  border: ${props => props.$isScored ? '1px solid #bae6fd' : 'none'};
 `;
 
-const StatsLabel = styled.div`
-  color: #4b5563;
+const StatsLabel = styled.div<{ $isScored?: boolean }>`
+  color: ${props => props.$isScored ? '#0369a1' : '#4b5563'};
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  font-weight: ${props => props.$isScored ? '500' : 'normal'};
 `;
 
 const StatsValue = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
   color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
-const Button = styled.button`
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.75rem 1.5rem;
+const StatsPercentage = styled.span`
   font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  
-  &:hover {
-    background: #2563eb;
-  }
+  color: #6b7280;
+  font-weight: normal;
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
+  justify-content: center;
   margin-top: 2rem;
 `;
 
 const ResultPage: React.FC = () => {
-  const { filtered, answers, reset, retryWrongAnswers } = useQuizStore();
+  const { filtered, answers, reset, retryWrongAnswers, examMode } = useQuizStore();
   const navigate = useNavigate();
   
+  useEffect(() => {
+    if (examMode?.mode === 'practice') {
+      console.log('실전 모드 examMode:', examMode);
+      console.log('채점 대상 문제:', examMode.scoredQuestions);
+    }
+  }, [examMode]);
+
   // 정답 계산
   const correctAnswers = filtered.filter(q => {
-    if (q.isMultipleChoice) {
-      return answers[q.number] === q.answer;
+    const userAnswer = answers[q.number];
+    const correctAnswer = q.answer;
+
+    // 정답이 없는 문제는 자동으로 정답 처리
+    if (!correctAnswer) {
+      return true;
     }
-    return answers[q.number] === q.answer;
+
+    // 복수 선택 문제 처리
+    if (q.isMultipleChoice) {
+      if (!userAnswer || !Array.isArray(userAnswer)) return false;
+      const sortedUserAnswer = [...userAnswer].sort().join('');
+      const sortedCorrectAnswer = [...correctAnswer].sort().join('');
+      return sortedUserAnswer === sortedCorrectAnswer;
+    }
+
+    // 단일 선택 문제 처리
+    return userAnswer === correctAnswer;
   });
 
   // 점수 계산
-  const totalQuestions = filtered.length;
-  const pointsPerQuestion = 1000 / totalQuestions;
-  const score = Math.round(correctAnswers.length * pointsPerQuestion);
+  let score: number;
+  let totalQuestions: number;
+  let scorePercentage: number;
+
+  if (examMode?.isPracticeMode) {
+    // 실전 모드: 50문제만 점수에 반영 (각 20점)
+    const scoredCorrectAnswers = correctAnswers.filter(q => 
+      examMode.scoredQuestions?.includes(q.number)
+    );
+    score = scoredCorrectAnswers.length * 20;
+    totalQuestions = 50;  // 점수에 반영되는 문제 수
+    scorePercentage = (score / 1000) * 100;
+  } else {
+    // 일반 모드: 모든 문제가 동일한 배점
+    totalQuestions = filtered.length;
+    const pointsPerQuestion = 1000 / totalQuestions;
+    score = Math.round(correctAnswers.length * pointsPerQuestion);
+    scorePercentage = (score / 1000) * 100;
+  }
+
   const isPassing = score >= 700;
-  const scorePercentage = (score / 1000) * 100;
 
   // 통계 계산
   const correctCount = correctAnswers.length;
-  const wrongCount = totalQuestions - correctCount;
-  const correctPercentage = Math.round((correctCount / totalQuestions) * 100);
+  const wrongCount = filtered.length - correctCount;
+  const correctPercentage = Math.round((correctCount / filtered.length) * 100);
   const wrongPercentage = 100 - correctPercentage;
 
-  const handleRetryWrongAnswers = () => {
-    retryWrongAnswers();
-    navigate('/');
-  };
+  // 오답 문제 표시 (시험 순서 유지)
+  const wrongAnswers = filtered
+    .map((q, index) => ({ 
+      ...q, 
+      examOrder: index + 1,  // 시험에서의 순서
+      isCorrect: correctAnswers.includes(q)  // 정답 여부
+    }))
+    .filter(q => !q.isCorrect)  // 오답만 필터링
+    .sort((a, b) => a.examOrder - b.examOrder);  // 시험 순서대로 정렬
+
+  // 채점 대상 문제의 정답 계산 (실전 모드용)
+  const scoredCorrectAnswers = examMode?.mode === 'practice' && examMode.scoredQuestions
+    ? filtered
+        .filter(q => examMode.scoredQuestions?.includes(q.number))
+        .filter(q => {
+          const userAnswer = answers[q.number];
+          const correctAnswer = q.answer;
+
+          if (!correctAnswer) return true;
+
+          if (q.isMultipleChoice) {
+            if (!userAnswer || !Array.isArray(userAnswer)) return false;
+            const sortedUserAnswer = [...userAnswer].sort().join('');
+            const sortedCorrectAnswer = [...correctAnswer].sort().join('');
+            return sortedUserAnswer === sortedCorrectAnswer;
+          }
+
+          return userAnswer === correctAnswer;
+        })
+    : [];
+
+  const scoredCorrectCount = scoredCorrectAnswers.length;
+  const scoredWrongCount = (examMode?.scoredQuestions?.length || 0) - scoredCorrectCount;
+  const scoredCorrectPercentage = examMode?.scoredQuestions 
+    ? Math.round((scoredCorrectCount / examMode.scoredQuestions.length) * 100)
+    : 0;
+  const scoredWrongPercentage = 100 - scoredCorrectPercentage;
 
   return (
     <Container>
@@ -158,12 +221,18 @@ const ResultPage: React.FC = () => {
       <ScoreContainer>
         <ScoreBar $score={scorePercentage} $isPassing={isPassing} />
         <ScoreInfo>
-          <ScoreLabel>Passing Score</ScoreLabel>
+          <span>Passing Score</span>
           <ScoreValue>700/1000</ScoreValue>
-          <ScoreLabel>Your Score</ScoreLabel>
+          <span>Your Score</span>
           <ScoreValue $isPassing={isPassing}>{score}/1000</ScoreValue>
-          <ScoreLabel>Grade</ScoreLabel>
+          <span>Grade</span>
           <ScoreValue $isPassing={isPassing}>{isPassing ? 'Pass' : 'Fail'}</ScoreValue>
+          {examMode?.isPracticeMode && (
+            <>
+              <span>채점된 문제</span>
+              <ScoreValue>{totalQuestions}문제 (각 20점)</ScoreValue>
+            </>
+          )}
         </ScoreInfo>
       </ScoreContainer>
 
@@ -171,38 +240,77 @@ const ResultPage: React.FC = () => {
         <StatsTitle>정답률</StatsTitle>
         <StatsGrid>
           <StatsItem>
-            <StatsLabel>정답</StatsLabel>
-            <StatsValue>{correctCount} ({correctPercentage}%)</StatsValue>
+            <StatsLabel>전체 정답</StatsLabel>
+            <StatsValue>
+              {correctCount} / {totalQuestions} 문제
+              <StatsPercentage>({correctPercentage}%)</StatsPercentage>
+            </StatsValue>
           </StatsItem>
           <StatsItem>
-            <StatsLabel>오답</StatsLabel>
-            <StatsValue>{wrongCount} ({wrongPercentage}%)</StatsValue>
+            <StatsLabel>전체 오답</StatsLabel>
+            <StatsValue>
+              {wrongCount} / {totalQuestions} 문제
+              <StatsPercentage>({wrongPercentage}%)</StatsPercentage>
+            </StatsValue>
           </StatsItem>
+          {examMode?.mode === 'practice' && examMode.scoredQuestions && (
+            <>
+              <StatsItem $isScored>
+                <StatsLabel $isScored>채점 대상 정답</StatsLabel>
+                <StatsValue>
+                  {scoredCorrectCount} / {examMode.scoredQuestions.length} 문제
+                  <StatsPercentage>({scoredCorrectPercentage}%)</StatsPercentage>
+                </StatsValue>
+              </StatsItem>
+              <StatsItem $isScored>
+                <StatsLabel $isScored>채점 대상 오답</StatsLabel>
+                <StatsValue>
+                  {scoredWrongCount} / {examMode.scoredQuestions.length} 문제
+                  <StatsPercentage>({scoredWrongPercentage}%)</StatsPercentage>
+                </StatsValue>
+              </StatsItem>
+            </>
+          )}
         </StatsGrid>
       </StatsContainer>
 
       {wrongCount > 0 && (
         <>
           <h2>오답 문제</h2>
-          {filtered.filter(q => !correctAnswers.includes(q)).map(q => (
-            <QuestionCard
-              key={q.number}
-              question={q}
-              selected={answers[q.number]}
-              showAnswer={true}
-            />
-          ))}
+          {wrongAnswers.map((q) => {
+            const isScored = examMode?.mode === 'practice' && examMode.scoredQuestions?.includes(q.number);
+            return (
+              <QuestionCard
+                key={q.number}
+                question={q}
+                selected={answers[q.number]}
+                showAnswer={true}
+                hideNumber={false}
+                customNumber={
+                  examMode?.mode === 'practice' 
+                    ? `${isScored ? '[채점 포함]' : '[채점 제외]'} ${q.examOrder}번 - Examtopic ${q.number}번`
+                    : `${q.examOrder}번 - Examtopic ${q.number}번`
+                }
+                hideAnswerButton={true}
+              />
+            );
+          })}
         </>
       )}
       <ButtonGroup>
-        <Button onClick={handleRetryWrongAnswers} disabled={wrongCount === 0}>
-          틀린 문제만 다시 풀기
-        </Button>
+        {wrongCount > 0 && (
+          <Button onClick={() => {
+            retryWrongAnswers();
+            navigate('/');
+          }}>
+            틀린 문제만 다시 풀기
+          </Button>
+        )}
         <Button onClick={() => {
           reset();
           navigate('/exam-setting');
-        }}>
-          새로운 시험 시작
+        }} variant="secondary">
+          새로운 시험 시작하기
         </Button>
       </ButtonGroup>
     </Container>

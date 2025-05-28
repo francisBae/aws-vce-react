@@ -1369,7 +1369,7 @@ export const questions: Question[] = [
     "number": 114,
     "text": "HOTSPOT-A company wants to build an ML application.Select and order the correct steps from the following list to develop a well-architected ML workload. Each step should be selected one time.",
     "options": [],
-    "answer": "''",
+    "answer": "",
     "link": "https://www.examtopics.com/discussions/amazon/view/156318-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/",
     "isMultipleChoice": true,
     "images": {
@@ -1505,7 +1505,7 @@ export const questions: Question[] = [
     "number": 125,
     "text": "HOTSPOT-A company has developed a large language model (LLM) and wants to make the LLM available to multiple internal teams. The company needs to select the appropriate inference mode for each team.Select the correct inference mode from the following list for each use case. Each inference mode should be selected one or more times.",
     "options": [],
-    "answer": "''",
+    "answer": "",
     "link": "https://www.examtopics.com/discussions/amazon/view/156319-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/",
     "isMultipleChoice": true,
     "images": {
@@ -1631,7 +1631,7 @@ export const questions: Question[] = [
     "number": 135,
     "text": "HOTSPOT-A company wants to develop ML applications to improve business operations and efficiency.Select the correct ML paradigm from the following list for each use case. Each ML paradigm should be selected one or more times.",
     "options": [],
-    "answer": "''",
+    "answer": "",
     "link": "https://www.examtopics.com/discussions/amazon/view/155872-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/",
     "isMultipleChoice": true,
     "images": {
@@ -1731,7 +1731,7 @@ export const questions: Question[] = [
     "number": 143,
     "text": "HOTSPOT-A company is training its employees on how to structure prompts for foundation models.Select the correct prompt engineering technique from the following list for each prompt template. Each prompt engineering technique should be selected one time.",
     "options": [],
-    "answer": "''",
+    "answer": "",
     "link": "https://www.examtopics.com/discussions/amazon/view/156390-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/",
     "isMultipleChoice": true,
     "images": {
@@ -1881,7 +1881,7 @@ export const questions: Question[] = [
     "number": 155,
     "text": "HOTSPOT-A company wants more customized responses to its generative AI models\u2019 prompts.Select the correct customization methodology from the following list for each use case. Each use case should be selected one time.",
     "options": [],
-    "answer": "''",
+    "answer": "",
     "link": "https://www.examtopics.com/discussions/amazon/view/302416-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/",
     "isMultipleChoice": true,
     "images": {

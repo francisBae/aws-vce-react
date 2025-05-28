@@ -88,10 +88,17 @@ const ErrorMessage = styled.p`
   margin-top: 0.5rem;
 `;
 
+const WarningText = styled.p`
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+`;
+
 const ExamSettingPage: React.FC = () => {
   const navigate = useNavigate();
   const { questions, setExamMode, load } = useQuizStore();
-  const [mode, setMode] = useState<'random' | 'range'>('random');
+  const [mode, setMode] = useState<'random' | 'range' | 'practice'>('random');
   const [questionCount, setQuestionCount] = useState<number>(10);
   const [startNumber, setStartNumber] = useState<number>(1);
   const [endNumber, setEndNumber] = useState<number>(questions.length);
@@ -170,6 +177,20 @@ const ExamSettingPage: React.FC = () => {
             />
             범위 지정
           </Label>
+          <Label>
+            <input
+              type="radio"
+              checked={mode === 'practice'}
+              onChange={() => setMode('practice')}
+              style={{ marginRight: '0.5rem' }}
+            />
+            실전 모드
+          </Label>
+          {mode === 'practice' && (
+            <WarningText>
+              ※ 시험 문제는 전체 중 총 65문제가 출제되며 그 중 50문제만 점수에 반영됩니다.
+            </WarningText>
+          )}
         </OptionGroup>
 
         {mode === 'random' ? (
@@ -184,7 +205,7 @@ const ExamSettingPage: React.FC = () => {
               placeholder={`1-${questions.length} 사이의 숫자를 입력하세요`}
             />
           </OptionGroup>
-        ) : (
+        ) : mode === 'range' ? (
           <>
             <OptionGroup>
               <Label>문제 범위 (전체 {questions.length}문제 중)</Label>
@@ -230,6 +251,15 @@ const ExamSettingPage: React.FC = () => {
               </Label>
             </OptionGroup>
           </>
+        ) : (
+          <OptionGroup>
+            <Label>실전 모드 안내</Label>
+            <WarningText>
+              • 전체 문제 중 랜덤하게 65문제가 출제됩니다.<br />
+              • 65문제 중 50문제만 점수에 반영됩니다.<br />
+              • 각 문제당 20점씩 배점됩니다. (총 1000점 만점)
+            </WarningText>
+          </OptionGroup>
         )}
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
