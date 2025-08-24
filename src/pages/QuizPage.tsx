@@ -66,11 +66,20 @@ const ButtonGroup = styled.div`
   margin-top: 1rem;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.4rem;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 769px) {
+    & > button {
+      flex: 1;
+      min-width: 120px;
+      max-width: 200px;
+    }
   }
 `;
 
@@ -123,7 +132,11 @@ const QuizPage: React.FC = () => {
     load,
     save,
     clearExamMode,
-    reset
+    reset,
+    finishExam,
+    saveExamProgress,
+    setCurrent,
+    retryCurrentMode
   } = useQuizStore();
 
   useEffect(() => {
@@ -146,46 +159,38 @@ const QuizPage: React.FC = () => {
 
   useEffect(() => {
     save();
-  }, [current, answers, completed, showAnswer, examMode, save]);
+    // 시험 모드에서만 진행 상태 저장
+    if (examMode) {
+      saveExamProgress();
+    }
+  }, [current, answers, completed, showAnswer, examMode, save, saveExamProgress]);
 
-  if (filtered.length === 0) return <div>문제가 없습니다.</div>;
-  if (completed) {
-    return (
-      <Container>
-        <CompletionContainer>
-          <CompletionTitle>퀴즈가 완료되었습니다!</CompletionTitle>
-          <CompletionMessage>
-            {filtered.length}문제 중 {Object.keys(answers).length}문제를 풀었습니다.<br />
-            결과를 확인해보세요.
-          </CompletionMessage>
-          <ButtonGroup>
-            <Button onClick={() => navigate('/result')}>
-              결과 보기
-            </Button>
-            <Button onClick={reset} variant="secondary">
-              다시 풀기
-            </Button>
-          </ButtonGroup>
-        </CompletionContainer>
-      </Container>
-    );
-  }
+  // 시험 완료 시 결과 저장 (useEffect는 컴포넌트 최상위에서만 사용)
+  useEffect(() => {
+    if (completed && examMode) {
+      const result = finishExam();
+      if (result) {
+        console.log('Exam completed and saved:', result);
+      }
+    }
+  }, [completed, examMode, finishExam]);
 
-  const q = filtered[current];
-
-  const handleShowAnswer = () => {
-    setShowAnswer(!showAnswer);
-  };
-
+  // 핸들러 함수들을 먼저 정의
   const handleRestart = () => {
-    if (window.confirm('시험을 다시 시작하시겠습니까? 모든 진행 상황이 초기화됩니다.')) {
-      clearExamMode();
-      navigate('/');
+    if (window.confirm('시험을 다시 시작하시겠습니까? 모든 답안이 초기화되고 첫 문제로 돌아갑니다.')) {
+      // 현재 시험 모드를 유지하면서 첫 문제로 돌아가고 답안만 초기화
+      retryCurrentMode(false); // 답안 초기화 및 진행 상태 업데이트
     }
   };
 
   const handleExamEnd = () => {
     if (window.confirm('시험을 종료하시겠습니까?')) {
+      if (examMode) {
+        const result = finishExam();
+        if (result) {
+          console.log('Exam ended and saved:', result);
+        }
+      }
       navigate('/result');
     }
   };
@@ -199,6 +204,62 @@ const QuizPage: React.FC = () => {
       next();
     }
   };
+
+  // 현재 모드로 다시 시작 (답안 유지)
+  const handleRetryWithAnswers = () => {
+    retryCurrentMode(true); // 답안 유지
+  };
+
+  // 현재 모드로 다시 시작 (답안 초기화)
+  const handleRetryFresh = () => {
+    if (window.confirm('모든 답안을 초기화하고 다시 시작하시겠습니까?')) {
+      retryCurrentMode(false); // 답안 초기화
+    }
+  };
+
+  // 시험 모드 선택 페이지로 이동
+  const handleSelectExamMode = () => {
+    clearExamMode();
+    navigate('/');
+  };
+
+  const handleShowAnswer = () => {
+    setShowAnswer(!showAnswer);
+  };
+
+  if (filtered.length === 0) return <div>문제가 없습니다.</div>;
+
+  if (completed) {
+    return (
+      <Container>
+        <CompletionContainer>
+          <CompletionTitle>
+            {examMode ? '시험이 완료되었습니다!' : '퀴즈가 완료되었습니다!'}
+          </CompletionTitle>
+          <CompletionMessage>
+            {filtered.length}문제 중 {Object.keys(answers).length}문제를 풀었습니다.<br />
+            결과를 확인해보세요.
+          </CompletionMessage>
+          <ButtonGroup>
+            <Button onClick={() => navigate('/result')}>
+              결과 보기
+            </Button>
+            <Button onClick={handleRetryWithAnswers} variant="secondary">
+              다시 풀기 (답안 유지)
+            </Button>
+            <Button onClick={handleRetryFresh} variant="secondary">
+              다시 풀기 (새로 시작)
+            </Button>
+            <Button onClick={handleSelectExamMode} variant="secondary">
+              시험 모드 선택
+            </Button>
+          </ButtonGroup>
+        </CompletionContainer>
+      </Container>
+    );
+  }
+
+  const q = filtered[current];
 
   return (
     <Container>

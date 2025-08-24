@@ -1,6 +1,16 @@
 import { create } from 'zustand';
-import type { Question } from '../types/question';
-import { questions as questionData } from '../data/questions';
+import type { Question, ExamType, ExamResult, ExamProgress } from '../types/question';
+import { examTypes, getExamTypeById } from '../data/examTypes';
+import { 
+  saveExamResult, 
+  getExamResults, 
+  saveExamProgress, 
+  getExamProgress, 
+  clearExamProgress,
+  deleteExamResult,
+  clearAllExamResults,
+  deleteExamResultsByType
+} from '../utils/examStorage';
 
 interface ExamMode {
   mode: 'random' | 'range' | 'practice';  // practice 모드 추가
@@ -22,6 +32,11 @@ interface QuizState {
   filtered: Question[];
   showAnswer: boolean;
   examMode: ExamMode | null;
+  selectedExamType: string;
+  examTypes: ExamType[];
+  examStartTime: Date | null;
+  examResults: ExamResult[];
+  currentExamProgress: ExamProgress | null;
   setAnswer: (number: number, answer: string | string[]) => void;
   next: () => void;
   prev: () => void;
@@ -35,6 +50,17 @@ interface QuizState {
   clearExamMode: () => void;
   retryWrongAnswers: () => void;
   setCurrent: (index: number) => void;
+  setSelectedExamType: (examTypeId: string) => void;
+  startExam: () => void;
+  finishExam: () => ExamResult | null;
+  loadExamResults: () => void;
+  deleteExamResult: (resultId: string) => void;
+  loadExamProgress: () => boolean;
+  saveExamProgress: () => void;
+  clearCurrentExamProgress: () => void;
+  retryCurrentMode: (keepAnswers?: boolean) => void;
+  clearAllExamResults: () => void;
+  deleteExamResultsByType: (examTypeId: string) => void;
 }
 
 const getInitial = () => {
@@ -57,7 +83,7 @@ const getInitial = () => {
   } catch (e) {
     console.error('Failed to load saved progress:', e);
   }
-  return { current: 0, answers: {}, completed: false, showAnswer: false, examMode: null };
+  return { current: 0, answers: {}, completed: false, showAnswer: false, examMode: null, selectedExamType: 'aif-c01' };
 };
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -78,6 +104,11 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   filtered: [],
   showAnswer: getInitial().showAnswer,
   examMode: getInitial().examMode,
+  selectedExamType: getInitial().selectedExamType || 'aif-c01',
+  examTypes,
+  examStartTime: null,
+  examResults: [],
+  currentExamProgress: null,
   setAnswer: (number, answer) => set(state => {
     const answers = { ...state.answers, [number]: answer };
     return { answers };
@@ -116,7 +147,8 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     return { filtered, current: 0, completed: false, showAnswer: false };
   }),
   load: () => set(state => {
-    const questions = questionData;
+    const examType = getExamTypeById(state.selectedExamType);
+    const questions = examType ? examType.questions : [];
     let filtered = questions;
 
     // 시험 모드가 설정되어 있다면 해당 모드에 맞게 문제 필터링
@@ -306,6 +338,224 @@ export const useQuizStore = create<QuizState>((set, get) => ({
       completed: false,
       showAnswer: false,
       answers: {}
+    }));
+  },
+  setSelectedExamType: (examTypeId: string) => set(state => {
+    const examType = getExamTypeById(examTypeId);
+    if (!examType) return state;
+    
+    return {
+      selectedExamType: examTypeId,
+      questions: examType.questions,
+      filtered: examType.questions,
+      current: 0,
+      answers: {},
+      completed: false,
+      showAnswer: false,
+      examMode: null
+    };
+  }),
+  startExam: () => set(state => {
+    const examType = getExamTypeById(state.selectedExamType);
+    if (!examType || !state.examMode) return state;
+
+    const startTime = new Date();
+    const examProgress: ExamProgress = {
+      id: `${state.selectedExamType}-${Date.now()}`,
+      examTypeId: state.selectedExamType,
+      examTypeName: examType.name,
+      startTime,
+      currentQuestion: 0,
+      totalQuestions: state.filtered.length,
+      answers: {},
+      examMode: state.examMode.mode,
+      questionNumbers: state.filtered.map(q => q.number),
+      isPracticeMode: state.examMode.isPracticeMode,
+      scoredQuestions: state.examMode.scoredQuestions
+    };
+
+    saveExamProgress(examProgress);
+
+    return {
+      examStartTime: startTime,
+      currentExamProgress: examProgress
+    };
+  }),
+  finishExam: () => {
+    const state = get();
+    const { examStartTime, filtered, answers, selectedExamType, examMode, currentExamProgress } = state;
+    
+    if (!examStartTime || !examMode || !currentExamProgress) return null;
+
+    const examType = getExamTypeById(selectedExamType);
+    if (!examType) return null;
+
+    const endTime = new Date();
+    const duration = Math.round((endTime.getTime() - examStartTime.getTime()) / (1000 * 60));
+
+    // 정답 계산
+    let correctAnswers = 0;
+    let totalQuestionsForScore = filtered.length;
+    
+    // 실전 모드인 경우 점수에 반영되는 문제만 계산
+    const questionsToScore = examMode.isPracticeMode && examMode.scoredQuestions
+      ? filtered.filter(q => examMode.scoredQuestions!.includes(q.number))
+      : filtered;
+    
+    totalQuestionsForScore = questionsToScore.length;
+
+    questionsToScore.forEach(q => {
+      const userAnswer = answers[q.number];
+      const correctAnswer = q.answer;
+
+      if (!correctAnswer) {
+        correctAnswers++;
+        return;
+      }
+
+      if (q.isMultipleChoice) {
+        if (userAnswer && Array.isArray(userAnswer)) {
+          const sortedUserAnswer = [...userAnswer].sort().join('');
+          const sortedCorrectAnswer = [...correctAnswer].sort().join('');
+          if (sortedUserAnswer === sortedCorrectAnswer) {
+            correctAnswers++;
+          }
+        }
+      } else {
+        if (userAnswer === correctAnswer) {
+          correctAnswers++;
+        }
+      }
+    });
+
+    // 점수 계산 (1000점 만점)
+    const score = Math.round((correctAnswers / totalQuestionsForScore) * 1000);
+
+    const examResult: ExamResult = {
+      id: currentExamProgress.id,
+      examTypeId: selectedExamType,
+      examTypeName: examType.name,
+      startTime: examStartTime,
+      endTime,
+      duration,
+      totalQuestions: filtered.length,
+      correctAnswers,
+      score,
+      examMode: examMode.mode,
+      answers,
+      questionNumbers: filtered.map(q => q.number),
+      isPracticeMode: examMode.isPracticeMode,
+      scoredQuestions: examMode.scoredQuestions
+    };
+
+    saveExamResult(examResult);
+    clearExamProgress();
+
+    set(state => ({
+      examResults: [...state.examResults, examResult],
+      currentExamProgress: null,
+      examStartTime: null
+    }));
+
+    return examResult;
+  },
+  loadExamResults: () => set(() => ({
+    examResults: getExamResults()
+  })),
+  deleteExamResult: (resultId: string) => {
+    deleteExamResult(resultId);
+    set(state => ({
+      examResults: state.examResults.filter(result => result.id !== resultId)
+    }));
+  },
+  loadExamProgress: () => {
+    const progress = getExamProgress();
+    if (!progress) return false;
+
+    const examType = getExamTypeById(progress.examTypeId);
+    if (!examType) return false;
+
+    // 진행 중인 시험이 있으면 복원
+    const filtered = examType.questions.filter(q => 
+      progress.questionNumbers.includes(q.number)
+    );
+
+    // 문제 순서 복원
+    const orderMap = new Map(progress.questionNumbers.map((num, idx) => [num, idx]));
+    filtered.sort((a, b) => (orderMap.get(a.number) ?? 0) - (orderMap.get(b.number) ?? 0));
+
+    set(() => ({
+      selectedExamType: progress.examTypeId,
+      questions: examType.questions,
+      filtered,
+      current: progress.currentQuestion,
+      answers: progress.answers,
+      examStartTime: progress.startTime,
+      currentExamProgress: progress,
+      examMode: {
+        mode: progress.examMode as 'random' | 'range' | 'practice',
+        questionCount: progress.totalQuestions,
+        startNumber: 1,
+        endNumber: examType.questions.length,
+        randomOrder: progress.questionNumbers,
+        isPracticeMode: progress.isPracticeMode,
+        scoredQuestions: progress.scoredQuestions
+      }
+    }));
+
+    return true;
+  },
+  saveExamProgress: () => {
+    const state = get();
+    if (!state.currentExamProgress) return;
+
+    const updatedProgress: ExamProgress = {
+      ...state.currentExamProgress,
+      currentQuestion: state.current,
+      answers: state.answers
+    };
+
+    saveExamProgress(updatedProgress);
+    set({ currentExamProgress: updatedProgress });
+  },
+  clearCurrentExamProgress: () => {
+    clearExamProgress();
+    set({
+      currentExamProgress: null,
+      examStartTime: null
+    });
+  },
+  retryCurrentMode: (keepAnswers = false) => set(state => {
+    // 시험 진행 상태가 있으면 업데이트, 없으면 그대로 유지
+    const updatedProgress = state.currentExamProgress ? {
+      ...state.currentExamProgress,
+      currentQuestion: 0,
+      answers: keepAnswers ? state.answers : {}
+    } : null;
+
+    // localStorage의 진행 상태도 업데이트
+    if (updatedProgress) {
+      saveExamProgress(updatedProgress);
+    }
+
+    return {
+      current: 0,
+      completed: false,
+      showAnswer: false,
+      answers: keepAnswers ? state.answers : {},
+      currentExamProgress: updatedProgress
+    };
+  }),
+  clearAllExamResults: () => {
+    clearAllExamResults();
+    set(state => ({
+      examResults: []
+    }));
+  },
+  deleteExamResultsByType: (examTypeId: string) => {
+    deleteExamResultsByType(examTypeId);
+    set(state => ({
+      examResults: state.examResults.filter(result => result.examTypeId !== examTypeId)
     }));
   }
 })); 

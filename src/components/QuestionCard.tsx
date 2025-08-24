@@ -163,6 +163,12 @@ interface Props {
   hideNumber?: boolean;
   customNumber?: string;
   hideAnswerButton?: boolean;
+  questionNumber?: string;
+  userAnswer?: string | string[];
+  onAnswerChange?: (answer: string | string[]) => void;
+  isReviewMode?: boolean;
+  examMode?: string;
+  scoredQuestions?: number[];
 }
 
 export const QuestionCard: React.FC<Props> = ({ 
@@ -173,7 +179,13 @@ export const QuestionCard: React.FC<Props> = ({
   onShowAnswer,
   hideNumber = false,
   customNumber,
-  hideAnswerButton = false
+  hideAnswerButton = false,
+  questionNumber,
+  userAnswer,
+  onAnswerChange,
+  isReviewMode = false,
+  examMode,
+  scoredQuestions
 }) => {
   const isAnswerCorrect = (letter: string) => {
     if (!showAnswer) return false;
@@ -192,11 +204,13 @@ export const QuestionCard: React.FC<Props> = ({
   };
 
   const isSelected = (letter: string) => {
-    if (!selected) return false;
+    // 리뷰 모드에서는 userAnswer 사용, 아니면 selected 사용
+    const currentAnswer = isReviewMode ? userAnswer : selected;
+    if (!currentAnswer) return false;
     if (question.isMultipleChoice) {
-      return Array.isArray(selected) && selected.includes(letter);
+      return Array.isArray(currentAnswer) && currentAnswer.includes(letter);
     }
-    return selected === letter;
+    return currentAnswer === letter;
   };
 
   const handleSelect = (letter: string) => {
@@ -219,10 +233,24 @@ export const QuestionCard: React.FC<Props> = ({
     }
   };  
 
+  // 리뷰 모드에서 채점 포함/제외 여부 계산
+  const isScored = examMode === 'practice' && scoredQuestions 
+    ? scoredQuestions.includes(question.number) 
+    : true;
+
   return (
     <Card>
       <Title>
-        {customNumber ? (
+        {questionNumber ? (
+          <>
+            {examMode === 'practice' && (
+              <ScoreButton $isScored={isScored}>
+                {isScored ? '채점 포함' : '채점 제외'}
+              </ScoreButton>
+            )}
+            <CustomNumber>{questionNumber}</CustomNumber>
+          </>
+        ) : customNumber ? (
           <>
             {customNumber.includes('[채점 포함]') && (
               <ScoreButton $isScored={true}>채점 포함</ScoreButton>
@@ -266,7 +294,7 @@ export const QuestionCard: React.FC<Props> = ({
         })}
       </OptionList>
       
-      {!hideAnswerButton && (selected || question.images?.answer) && (
+      {!hideAnswerButton && !isReviewMode && (selected || question.images?.answer) && (
         <AnswerButton onClick={handleShowAnswer}>
           {showAnswer ? '정답 숨기기' : '정답 확인'}
         </AnswerButton>

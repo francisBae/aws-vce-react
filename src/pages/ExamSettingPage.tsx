@@ -97,7 +97,18 @@ const WarningText = styled.p`
 
 const ExamSettingPage: React.FC = () => {
   const navigate = useNavigate();
-  const { questions, setExamMode, load } = useQuizStore();
+  const { 
+    questions, 
+    setExamMode, 
+    load, 
+    selectedExamType, 
+    setSelectedExamType, 
+    examTypes,
+    startExam,
+    loadExamProgress,
+    currentExamProgress,
+    clearCurrentExamProgress
+  } = useQuizStore();
   const [mode, setMode] = useState<'random' | 'range' | 'practice'>('random');
   const [questionCount, setQuestionCount] = useState<number>(10);
   const [startNumber, setStartNumber] = useState<number>(1);
@@ -106,14 +117,30 @@ const ExamSettingPage: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
+    // 진행 중인 시험이 있는지 확인만 하고 자동 이동하지 않음
+    loadExamProgress();
     load();
-  }, [load]);
+  }, [load, selectedExamType, loadExamProgress]);
 
   useEffect(() => {
     if (questions.length > 0) {
       setEndNumber(questions.length);
     }
   }, [questions.length]);
+
+  const handleExamTypeChange = (examTypeId: string) => {
+    setSelectedExamType(examTypeId);
+  };
+
+  const handleContinueExam = () => {
+    navigate('/quiz');
+  };
+
+  const handleStartNewExam = () => {
+    clearCurrentExamProgress();
+    // 페이지 리로드하여 초기 상태로 복원
+    window.location.reload();
+  };
 
   const validateSettings = () => {
     if (mode === 'random') {
@@ -150,12 +177,68 @@ const ExamSettingPage: React.FC = () => {
       isRandom: mode === 'range' ? isRandom : undefined
     });
 
+    startExam();
     navigate('/quiz');
   };
 
+  const selectedExam = examTypes.find(exam => exam.id === selectedExamType);
+
   return (
     <Container>
-      <Title>AIF-C01 시험 모드 설정</Title>
+      <Title>AWS 자격증 시험 모드 설정</Title>
+      
+      {currentExamProgress && (
+        <SettingCard style={{ background: '#fef3c7', border: '1px solid #f59e0b' }}>
+          <SettingTitle style={{ color: '#d97706' }}>📋 진행 중인 시험이 있습니다</SettingTitle>
+          <OptionGroup>
+            <p style={{ color: '#4b5563', marginBottom: '1rem' }}>
+              <strong>{currentExamProgress.examTypeName}</strong> 시험이 진행 중입니다.
+              <br />
+              진행률: {currentExamProgress.currentQuestion + 1} / {currentExamProgress.totalQuestions}
+              <br />
+              시작 시간: {currentExamProgress.startTime.toLocaleString()}
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <Button onClick={handleContinueExam} style={{ background: '#059669' }}>
+                📖 시험 계속하기
+              </Button>
+              <Button 
+                onClick={handleStartNewExam}
+                style={{ background: '#ef4444' }}
+              >
+                🗑️ 진행 상태 삭제
+              </Button>
+            </div>
+            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>
+              아래에서 새로운 시험을 설정할 수도 있습니다.
+            </p>
+          </OptionGroup>
+        </SettingCard>
+      )}
+      
+      <SettingCard>
+        <SettingTitle>시험 과목 선택</SettingTitle>
+        <OptionGroup>
+          <Label>시험 종류</Label>
+          <Input
+            as="select"
+            value={selectedExamType}
+            onChange={(e) => handleExamTypeChange(e.target.value)}
+          >
+            {examTypes.map(exam => (
+              <option key={exam.id} value={exam.id}>
+                {exam.name} - {exam.description}
+              </option>
+            ))}
+          </Input>
+          {selectedExam && (
+            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              총 {selectedExam.questions.length}문제
+            </p>
+          )}
+        </OptionGroup>
+      </SettingCard>
+      
       <SettingCard>
         <SettingTitle>문제 선택 방식</SettingTitle>
         <OptionGroup>

@@ -4,6 +4,7 @@ import { QuestionCard } from '../components/QuestionCard';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/common/Button';
+import { getExamTypeById } from '../data/examTypes';
 
 const Container = styled.div`
   max-width: 800px;
@@ -167,7 +168,7 @@ const TopButton = styled.button`
 `;
 
 const ResultPage: React.FC = () => {
-  const { filtered, answers, reset, retryWrongAnswers, examMode } = useQuizStore();
+  const { filtered, answers, reset, retryWrongAnswers, examMode, selectedExamType } = useQuizStore();
   const navigate = useNavigate();
   const [showTopButton, setShowTopButton] = useState(false);
   
@@ -250,7 +251,10 @@ const ResultPage: React.FC = () => {
     scorePercentage = (score / 1000) * 100;
   }
 
-  const isPassing = score >= 700;
+  // 현재 시험의 합격 점수 가져오기
+  const currentExamType = getExamTypeById(selectedExamType);
+  const passingScore = currentExamType?.passingScore || 700;
+  const isPassing = score >= passingScore;
 
   // 통계 계산
   const correctCount = correctAnswers.length;
@@ -304,7 +308,7 @@ const ResultPage: React.FC = () => {
         <ScoreBar $score={scorePercentage} $isPassing={isPassing} />
         <ScoreInfo>
           <span>Passing Score</span>
-          <ScoreValue>700/1000</ScoreValue>
+          <ScoreValue>{passingScore}/1000</ScoreValue>
           <span>Your Score</span>
           <ScoreValue $isPassing={isPassing}>{score}/1000</ScoreValue>
           <span>Grade</span>
