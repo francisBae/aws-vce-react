@@ -132,10 +132,10 @@ const QuizPage: React.FC = () => {
     load,
     save,
     clearExamMode,
-    reset,
+    // reset,
     finishExam,
     saveExamProgress,
-    setCurrent,
+    // setCurrent,
     retryCurrentMode
   } = useQuizStore();
 

@@ -182,7 +182,7 @@ export const QuestionCard: React.FC<Props> = ({
   hideAnswerButton = false,
   questionNumber,
   userAnswer,
-  onAnswerChange,
+  // onAnswerChange,
   isReviewMode = false,
   examMode,
   scoredQuestions

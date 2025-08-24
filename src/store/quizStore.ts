@@ -548,7 +548,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   }),
   clearAllExamResults: () => {
     clearAllExamResults();
-    set(state => ({
+    set(() => ({
       examResults: []
     }));
   },
