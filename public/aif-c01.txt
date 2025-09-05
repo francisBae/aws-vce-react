@@ -2144,6 +2144,20 @@ url: https://www.examtopics.com/discussions/amazon/view/156390-exam-aws-certifie
 
 ------------------------------------------------------------
 
+144.
+
+HOTSPOT-A company is using a generative AI model to develop a digital assistant. The model’s responses occasionally include undesirable and potentially harmful content.Select the correct Amazon Bedrock filter policy from the following list for each mitigation action. Each filter policy should be selected one time.
+
+이미지 포함 지문(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image9.png)
+
+
+
+정답: 이미지 포함 답안(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image10.png)
+
+url: https://www.examtopics.com/discussions/amazon/view/308015-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
 145.
 
 Which option is a benefit of using Amazon SageMaker Model Cards to document AI models?
@@ -2309,3 +2323,1172 @@ url: https://www.examtopics.com/discussions/amazon/view/302416-exam-aws-certifie
 
 ------------------------------------------------------------
 
+156.
+
+Which AWS feature records details about ML instance data for governance and reporting?
+
+A.Amazon SageMaker Model Cards
+B.Amazon SageMaker Debugger
+C.Amazon SageMaker Model Monitor
+D.Amazon SageMaker JumpStart
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/304555-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+157.
+
+A financial company is using ML to help with some of the company’s tasks.Which option is a use of generative AI models?
+
+A.Summarizing customer complaints
+B.Classifying customers based on product usage
+C.Segmenting customers based on type of investments
+D.Forecasting revenue for certain products
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/304554-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+158.
+
+A medical company wants to develop an AI application that can access structured patient records, extract relevant information, and generate concise summaries.Which solution will meet these requirements?
+
+A.Use Amazon Comprehend Medical to extract relevant medical entities and relationships. Apply rule-based logic to structure and format summaries.
+B.Use Amazon Personalize to analyze patient engagement patterns. Integrate the output with a general purpose text summarization tool.
+C.Use Amazon Textract to convert scanned documents into digital text. Design a keyword extraction system to generate summaries.
+D.Implement Amazon Kendra to provide a searchable index for medical records. Use a template-based system to format summaries.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/304556-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+159.
+
+Which option describes embeddings in the context of AI?
+
+A.A method for compressing large datasets
+B.An encryption method for securing sensitive data
+C.A method for visualizing high-dimensional data
+D.A numerical method for data representation in a reduced dimensionality space
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/305373-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+160.
+
+A company is building an AI application to summarize books of varying lengths. During testing, the application fails to summarize some books.Why does the application fail to summarize some books?
+
+A.The temperature is set too high.
+B.The selected model does not support fine-tuning.
+C.The Top P value is too high.
+D.The input tokens exceed the model’s context size.
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/304551-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+161.
+
+An airline company wants to build a conversational AI assistant to answer customer questions about flight schedules, booking, and payments. The company wants to use large language models (LLMs) and a knowledge base to create a text-based chatbot interface.Which solution will meet these requirements with the LEAST development effort?
+
+A.Train models on Amazon SageMaker Autopilot.
+B.Develop a Retrieval Augmented Generation (RAG) agent by using Amazon Bedrock.
+C.Create a Python application by using Amazon Q Developer.
+D.Fine-tune models on Amazon SageMaker Jumpstart.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/304557-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+162.
+
+What is tokenization used for in natural language processing (NLP)?
+
+A.To encrypt text data
+B.To compress text files
+C.To break text into smaller units for processing
+D.To translate text between languages
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/304558-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+163.
+
+Which option is a characteristic of transformer-based language models?
+
+A.Transformer-based language models use convolutional layers to apply filters across an input to capture local patterns through filtered views.
+B.Transformer-based language models can process only text data.
+C.Transformer-based language models use self-attention mechanisms to capture contextual relationships.
+D.Transformer-based language models process data sequences one element at a time in cyclic iterations.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/304559-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+164.
+
+A financial company is using AI systems to obtain customer credit scores as part of the loan application process. The company wants to expand to a new market in a different geographic area. The company must ensure that it can operate in that geographic area.Which compliance laws should the company review?
+
+A.Local health data protection laws
+B.Local payment card data protection laws
+C.Local education privacy laws
+D.Local algorithm accountability laws
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/304560-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+165.
+
+A company uses Amazon Bedrock for its generative AI application. The company wants to use Amazon Bedrock Guardrails to detect and filter harmful user inputs and model-generated outputs.Which content categories can the guardrails filter? (Choose two.)
+
+A.Hate
+B.Politics
+C.Violence
+D.Gambling
+E.Religion
+
+정답: AC
+
+url: https://www.examtopics.com/discussions/amazon/view/304561-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+166.
+
+Which scenario describes a potential risk and limitation of prompt engineering in the context of a generative AI model?
+
+A.Prompt engineering does not ensure that the model always produces consistent and deterministic outputs, eliminating the need for validation.
+B.Prompt engineering could expose the model to vulnerabilities such as prompt injection attacks.
+C.Properly designed prompts reduce but do not eliminate the risk of data poisoning or model hijacking.
+D.Prompt engineering does not ensure that the model will consistently generate highly reliable outputs when working with real-world data.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/304562-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+167.
+
+A publishing company built a Retrieval Augmented Generation (RAG) based solution to give its users the ability to interact with published content. New content is published daily. The company wants to provide a near real-time experience to users.Which steps in the RAG pipeline should the company implement by using offline batch processing to meet these requirements? (Choose two.)
+
+A.Generation of content embeddings
+B.Generation of embeddings for user queries
+C.Creation of the search index
+D.Retrieval of relevant content
+E.Response generation for the user
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/304552-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+168.
+
+Which technique breaks a complex task into smaller subtasks that are sent sequentially to a large language model (LLM)?
+
+A.One-shot prompting
+B.Prompt chaining
+C.Tree of thoughts
+D.Retrieval Augmented Generation (RAG)
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/304568-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+169.
+
+An AI practitioner needs to improve the accuracy of a natural language generation model. The model uses rapidly changing inventory data.Which technique will improve the model's accuracy?
+
+A.Transfer learning
+B.Federated learning
+C.Retrieval Augmented Generation (RAG)
+D.One-shot prompting
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306657-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+170.
+
+A company wants to collaborate with several research institutes to develop an AI model. The company needs standardized documentation of model version tracking and a record of model development.Which solution meets these requirements?
+
+A.Track the model changes by using Git.
+B.Track the model changes by using Amazon Fraud Detector.
+C.Track the model changes by using Amazon SageMaker Model Cards.
+D.Track the model changes by using Amazon Comprehend.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306656-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+171.
+
+A company that uses multiple ML models wants to identify changes in original model quality so that the company can resolve any issues.Which AWS service or feature meets these requirements?
+
+A.Amazon SageMaker JumpStart
+B.Amazon SageMaker HyperPod
+C.Amazon SageMaker Data Wrangler
+D.Amazon SageMaker Model Monitor
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/306654-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+172.
+
+What is the purpose of chunking in Retrieval Augmented Generation (RAG)?
+
+A.To avoid database storage limitations for large text documents by storing parts or chunks of the text
+B.To improve efficiency by avoiding the need to convert large text into vector embeddings
+C.To improve the contextual relevancy of results retrieved from the vector index
+D.To decrease the cost of storage by storing parts or chunks of the text
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306655-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+173.
+
+A company is developing an editorial assistant application that uses generative AI. During the pilot phase, usage is low and application performance is not a concern. The company cannot predict application usage after the application is fully deployed and wants to minimize application costs.Which solution will meet these requirements?
+
+A.Use GPU-powered Amazon EC2 instances.
+B.Use Amazon Bedrock with Provisioned Throughput.
+C.Use Amazon Bedrock with On-Demand Throughput.
+D.Use Amazon SageMaker JumpStart.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306660-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+174.
+
+A company deployed a Retrieval Augmented Generation (RAG) application on Amazon Bedrock that gathers financial news to distribute in daily newsletters. Users have recently reported politically influenced ideas in the newsletters.Which Amazon Bedrock guardrail can identify and filter this content?
+
+A.Word filters
+B.Denied topics
+C.Sensitive information filters
+D.Content filters
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306653-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+175.
+
+A financial company is developing a fraud detection system that flags potential fraud cases in credit card transactions. Employees will evaluate the flagged fraud cases. The company wants to minimize the amount of time the employees spend reviewing flagged fraud cases that are not actually fraudulent.Which evaluation metric meets these requirements?
+
+A.Recall
+B.Accuracy
+C.Precision
+D.Lift chart
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306658-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+176.
+
+A company designed an AI-powered agent to answer customer inquiries based on product manuals.Which strategy can improve customer confidence levels in the AI-powered agent's responses?
+
+A.Writing the confidence level in the response
+B.Including referenced product manual links in the response
+C.Designing an agent avatar that looks like a computer
+D.Training the agent to respond in the company's language style
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306661-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+177.
+
+A hospital developed an AI system to provide personalized treatment recommendations for patients. The AI system must provide the rationale behind the recommendations and make the insights accessible to doctors and patients.Which human-centered design principle does this scenario present?
+
+A.Explainability
+B.Privacy and security
+C.Fairness
+D.Data governance
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/306668-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+178.
+
+Which statement presents an advantage of using Retrieval Augmented Generation (RAG) for natural language processing (NLP) tasks?
+
+A.RAG can use external knowledge sources to generate more accurate and informative responses.
+B.RAG is designed to improve the speed of language model training.
+C.RAG is primarily used for speech recognition tasks.
+D.RAG is a technique for data augmentation in computer vision tasks.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/306664-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+179.
+
+A company has created a custom model by fine-tuning an existing large language model (LLM) from Amazon Bedrock. The company wants to deploy the model to production and use the model to handle a steady rate of requests each minute.Which solution meets these requirements MOST cost-effectively?
+
+A.Deploy the model by using an Amazon EC2 compute optimized instance.
+B.Use the model with on-demand throughput on Amazon Bedrock.
+C.Store the model in Amazon S3 and host the model by using AWS Lambda.
+D.Purchase Provisioned Throughput for the model on Amazon Bedrock.
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/306678-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+180.
+
+Which technique involves training AI models on labeled datasets to adapt the models to specific industry terminology and requirements?
+
+A.Data augmentation
+B.Fine-tuning
+C.Model quantization
+D.Continuous pre-training
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306671-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+181.
+
+A company is creating an agent for its application by using Amazon Bedrock Agents. The agent is performing well, but the company wants to improve the agent’s accuracy by providing some specific examples.Which solution meets these requirements?
+
+A.Modify the advanced prompts for the agent to include the examples.
+B.Create a guardrail for the agent that includes the examples.
+C.Use Amazon SageMaker Ground Truth to label the examples.
+D.Run a script in AWS Lambda that adds the examples to the training dataset.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/306665-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+182.
+
+Which option is a benefit of using infrastructure as code (IaC) in machine learning operations (MLOps)?
+
+A.IaC eliminates the need for hyperparameter tuning.
+B.IaC always provisions powerful compute instances, contributing to the training of more accurate models.
+C.IaC streamlines the deployment of scalable and consistent ML workloads in cloud environments.
+D.IaC minimizes overall expenses by deploying only low-cost instances.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306666-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+183.
+
+A company wants to fine-tune a foundation model (FM) to answer questions for a specific domain. The company wants to use instruction-based fine-tuning.How should the company prepare the training data?
+
+A.Gather company internal documents and industry-specific materials. Merge the documents and materials into a single file.
+B.Collect external company reviews from various online sources. Manually label each review as either positive or negative.
+C.Create pairs of questions and answers that specifically address topics related to the company's industry domain.
+D.Create few-shot prompts to instruct the model to answer only domain knowledge.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306659-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+184.
+
+Which ML technique ensures data compliance and privacy when training AI models on AWS?
+
+A.Reinforcement learning
+B.Transfer learning
+C.Federated learning
+D.Unsupervised learning
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306663-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+185.
+
+HOTSPOT-A company needs to customize a base model that is hosted on Amazon Bedrock.Select the correct model customization method from the following list of company requirements. Each model customization method should be selected one or more times.
+
+이미지 포함 지문(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image13.png)
+
+
+
+정답: 이미지 포함 답안(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image14.png)
+
+url: https://www.examtopics.com/discussions/amazon/view/306675-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+186.
+
+A manufacturing company has an application that ingests consumer complaints from publicly available sources. The application uses complex hard-coded logic to process the complaints. The company wants to scale this logic across markets and product lines.Which advantage do generative AI models offer for this scenario?
+
+A.Predictability of outputs
+B.Adaptability
+C.Less sensitivity to changes in inputs
+D.Explainability
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306677-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+187.
+
+A financial company wants to flag all credit card activity as possibly fraudulent or non-fraudulent based on transaction data.Which type of ML model meets these requirements?
+
+A.Regression
+B.Diffusion
+C.Binary classification
+D.Multi-class classification
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306676-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+188.
+
+HOTSPOT-A company is designing a customer service chatbot by using a fine-tuned large language model (LLM). The company wants to ensure that the chatbot uses responsible AI characteristics.Select the correct responsible AI characteristic from the following list for each application design action. Each responsible AI characteristic should be selected one time or not at all.
+
+이미지 포함 지문(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image15.png)
+
+
+
+정답: 이미지 포함 답안(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image16.png)
+
+url: https://www.examtopics.com/discussions/amazon/view/306672-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+189.
+
+A hospital wants to use a generative AI solution with speech-to-text functionality to help improve employee skills in dictating clinical notes.Which AWS service meets these requirements?
+
+A.Amazon Q Developer
+B.Amazon Polly
+C.Amazon Rekognition
+D.AWS HealthScribe
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/306670-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+190.
+
+Which type of AI model makes numeric predictions?
+
+A.Diffusion
+B.Regression
+C.Transformer
+D.Multi-modal
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306669-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+191.
+
+HOTSPOT-A company wants to use Amazon SageMaker features for various use cases.Select the correct SageMaker feature from the following list for each use case. Each SageMaker feature should be selected one time or not at all.
+
+이미지 포함 지문(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image17.png)
+
+
+
+정답: 이미지 포함 답안(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image18.png)
+
+url: https://www.examtopics.com/discussions/amazon/view/306667-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+192.
+
+What is the purpose of vector embeddings in a large language model (LLM)?
+
+A.Splitting text into manageable pieces of data
+B.Grouping a set of characters to be treated as a single unit
+C.Providing the ability to mathematically compare texts
+D.Providing the count of every word in the input
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/306662-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+193.
+
+A company wants to fine-tune a foundation model (FM) by using AWS services. The company needs to ensure that its data stays private, safe, and secure in the source AWS Region where the data is stored.Which combination of steps will meet these requirements MOST cost-effectively? (Choose two.)
+
+A.Host the model on premises by using AWS Outposts.
+B.Use the Amazon Bedrock API.
+C.Use AWS PrivateLink and a VPC.
+D.Host the Amazon Bedrock API on premises.
+E.Use Amazon CloudWatch logs and metrics.
+
+정답: BC
+
+url: https://www.examtopics.com/discussions/amazon/view/306674-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+194.
+
+A financial company uses AWS to host its generative AI models. The company must generate reports to show adherence to international regulations for handling sensitive customer data.Which AWS service meets these requirements?
+
+A.Amazon Macie
+B.AWS Artifact
+C.AWS Secrets Manager
+D.AWS Config
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/306673-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+195.
+
+A medical company wants to modernize its onsite information processing application. The company wants to use generative AI to respond to medical questions from patients.Which AWS service should the company use to ensure responsible AI for the application?
+
+A.Guardrails for Amazon Bedrock
+B.Amazon Inspector
+C.Amazon Rekognition
+D.AWS Trusted Advisor
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308643-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+196.
+
+Which metric is used to evaluate the performance of foundation models (FMs) for text summarization tasks?
+
+A.F1 score
+B.Bilingual Evaluation Understudy (BLEU) score
+C.Accuracy
+D.Mean squared error (MSE)
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308644-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+197.
+
+What is the benefit of fine-tuning a foundation model (FM)?
+
+A.Fine-tuning reduces the FM's size and complexity and enables slower inference.
+B.Fine-tuning uses specific training data to retrain the FM from scratch to adapt to a specific use case.
+C.Fine-tuning keeps the FM's knowledge up to date by pre-training the FM on more recent data.
+D.Fine-tuning improves the performance of the FM on a specific task by further training the FM on new labeled data.
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/308645-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+198.
+
+A company wants to improve its chatbot's responses to match the company's desired tone. The company has 100 examples of high-quality conversations between customer service agents and customers. The company wants to use this data to incorporate company tone into the chatbot's responses.Which solution meets these requirements?
+
+A.Use Amazon Personalize to generate responses.
+B.Create an Amazon SageMaker HyperPod pre-training job.
+C.Host the model by using Amazon SageMaker. Use TensorRT for large language model (LLM) deployment.
+D.Create an Amazon Bedrock fine-tuning job.
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/308647-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+199.
+
+An ecommerce company is using a chatbot to automate the customer order submission process. The chatbot is powered by AI and is available to customers directly from the company's website 24 hours a day, 7 days a week.Which option is an AI system input vulnerability that the company needs to resolve before the chatbot is made available?
+
+A.Data leakage
+B.Prompt injection
+C.Large language model (LLM) hallucinations
+D.Concept drift
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308648-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+200.
+
+A social media company wants to prevent users from posting discriminatory content on the company's application. The company wants to use Amazon Bedrock as part of the solution.How can the company use Amazon Bedrock to meet these requirements?
+
+A.Give users the ability to interact based on user preferences.
+B.Block interactions related to predefined topics.
+C.Restrict user conversations to predefined topics.
+D.Provide a variety of responses to select from for user engagement.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308649-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+201.
+
+An education company waftion. The application will give users the ability to enter text or provide a picture of a question. The application will respond with a written answer and an explanation of the written answer.Which model type meets these requirements?
+
+A.Computer vision model
+B.Large multi-modal language model
+C.Diffusion model
+D.Text-to-speech model
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308650-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+202.
+
+In which stage of the generative AI model lifecycle are tests performed to examine the model's accuracy?
+
+A.Deployment
+B.Data selection
+C.Fine-tuning
+D.Evaluation
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/308651-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+203.
+
+Which statement correctly describes embeddings in generative AI?
+
+A.Embeddings represent data as high-dimensional vectors that capture semantic relationships.
+B.Embeddings is a technique that searches data to find the most helpful information to answer natural language questions.
+C.Embeddings reduce the hardware requirements of a model by using a less precise data type for the weights and activations.
+D.Embeddings provide the ability to store and retrieve data for generative AI applications.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308652-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+204.
+
+A company wants to add generative AI functionality to its application by integrating a large language model (LLM). The responses from the LLM must be as deterministic and as stable as possible.Which solution meets these requirements?
+
+A.Configure the application to automatically set the temperature parameter to 0 when submitting the prompt to the LLM.
+B.Configure the application to automatically add "make your response deterministic" at the end of the prompt before submitting the prompt to the LLM.
+C.Configure the application to automatically add "make your response deterministic" at the beginning of the prompt before submitting the prompt to the LLM.
+D.Configure the application to automatically set the temperature parameter to 1 when submitting the prompt to the LLM.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308654-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+205.
+
+A company needs to select a generative AI model to build an application. The application must provide responses to users in real time.Which model characteristic should the company consider to meet these requirements?
+
+A.Model complexity
+B.Innovation speed
+C.Inference speed
+D.Training time
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308655-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+206.
+
+Which term refers to the instructions given to foundation models (FMs) so that the FMs provide a more accurate response to a question?
+
+A.Prompt
+B.Direction
+C.Dialog
+D.Translation
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308656-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+207.
+
+A retail company wants to build an ML model to recommend products to customers. The company wants to build the model based on responsible practices.Which practice should the company apply when collecting data to decrease model bias?
+
+A.Use data from only customers who match the demographics of the company's overall customer base.
+B.Collect data from customers who have a past purchase history.
+C.Ensure that the data is balanced and collected from a diverse group.
+D.Ensure that the data is from a publicly available dataset.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308657-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+208.
+
+A company is developing an ML model to predict customer churn.Which evaluation metric will assess the model's performance on a binary classification task such as predicting churn?
+
+A.F1 score
+B.Mean squared error (MSE)
+C.R-squared
+D.Time used to train the model
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308658-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+209.
+
+An AI practitioner is evaluating the performance of an Amazon SageMaker model. The AI practitioner must choose a performance metric. The metric must show the ratio of the number of correctly classified items to the total number of correctly and incorrectly classified items.Which metric meets these requirements?
+
+A.Accuracy
+B.Precision
+C.F1 score
+D.Recall
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308659-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+210.
+
+An ecommerce company receives multiple gigabytes of customer data daily. The company uses the data to train an ML model to forecast future product demand. The company needs a solution to perform inferences once each day.Which inference type meets these requirements?
+
+A.Batch inference
+B.Asynchronous inference
+C.Real-time inference
+D.Serverless inference
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308660-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+211.
+
+A company has developed a generative AI model for customer segmentation. The model has been deployed in the company's production environment for a long time. The company recently noticed some inconsistency in the model's responses. The company wants to evaluate model bias and drift.Which AWS service or feature meets these requirements?
+
+A.Amazon SageMaker Model Monitor
+B.Amazon SageMaker Clarify
+C.Amazon SageMaker Model Cards
+D.Amazon SageMaker Feature Store
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308661-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+212.
+
+A company has signed up for Amazon Bedrock access to build applications. The company wants to restrict employee access to specific models available on Amazon Bedrock.Which solution meets these requirements?
+
+A.Use AWS Identity and Access Management (IAM) policies to restrict model access.
+B.Use AWS Security Token Service (AWS STS) to generate temporary credentials for model use.
+C.Use AWS Identity and Access Management (IAM) service roles to restrict model subscription.
+D.Use Amazon Inspector to monitor model access.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308662-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+213.
+
+Which ML technique uses training data that is labeled with the correct output values?
+
+A.Supervised learning
+B.Unsupervised learning
+C.Reinforcement learning
+D.Transfer learning
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308663-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+214.
+
+Which large language model (LLM) parameter controls the number of possible next words or tokens considered at each step of the text generation process?
+
+A.Maximum tokens
+B.Top K
+C.Temperature
+D.Batch size
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308664-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+215.
+
+A company is making a chatbot. The chatbot uses Amazon Lex and Amazon OpenSearch Service. The chatbot uses the company's private data to answer questions. The company needs to convert the data into a vector representation before storing the data in a database.Which type of foundation model (FM) meets these requirements?
+
+A.Text completion model
+B.Instruction following model
+C.Text embeddings model
+D.Image generation model
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308665-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+216.
+
+A company wants to use a large language model (LLM) to generate product descriptions. The company wants to give the model example descriptions that follow a format.Which prompt engineering technique will generate descriptions that match the format?
+
+A.Zero-shot prompting
+B.Chain-of-thought prompting
+C.One-shot prompting
+D.Few-shot prompting
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/308666-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+217.
+
+A bank is fine-tuning a large language model (LLM) on Amazon Bedrock to assist customers with questions about their loans. The bank wants to ensure that the model does not reveal any private customer data.Which solution meets these requirements?
+
+A.Use Amazon Bedrock Guardrails.
+B.Remove personally identifiable information (PII) from the customer data before fine-tuning the LLM.
+C.Increase the Top-K parameter of the LLM.
+D.Store customer data in Amazon S3. Encrypt the data before fine-tuning the LLM.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308667-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+218.
+
+A grocery store wants to create a chatbot to help customers find products in the store. The chatbot must check the inventory in real time and provide the product location in the store.Which prompt engineering technique should the store use to build the chatbot?
+
+A.Zero-shot prompting
+B.Few-shot prompting
+C.Least-to-most prompting
+D.Reasoning and acting (ReAct) prompting
+
+정답: D
+
+url: https://www.examtopics.com/discussions/amazon/view/308668-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+219.
+
+A company uses a third-party model on Amazon Bedrock to analyze confidential documents. The company is concerned about data privacy.Which statement describes how Amazon Bedrock protects data privacy?
+
+A.User inputs and model outputs are anonymized and shared with third-party model providers.
+B.User inputs and model outputs are not shared with any third-party model providers.
+C.User inputs are kept confidential, but model outputs are shared with third-party model providers.
+D.User inputs and model outputs are redacted before the inputs and outputs are shared with third-party model providers.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308669-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+220.
+
+An animation company wants to provide subtitles for its content.Which AWS service meets this requirement?
+
+A.Amazon Comprehend
+B.Amazon Polly
+C.Amazon Transcribe
+D.Amazon Translate
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308670-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+221.
+
+An ecommerce company wants to group customers based on their purchase history and preferences to personalize the user experience of the company's application.Which ML technique should the company use?
+
+A.Classification
+B.Clustering
+C.Regression
+D.Content generation
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308672-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+222.
+
+A company wants to control employee access to publicly available foundation models (FMs).Which solution meets these requirements?
+
+A.Analyze cost and usage reports in AWS Cost Explorer.
+B.Download AWS security and compliance documents from AWS Artifact.
+C.Configure Amazon SageMaker JumpStart to restrict discoverable FMs.
+D.Build a hybrid search solution by using Amazon OpenSearch Service.
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308673-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+223.
+
+A company has set up a translation tool to help its customer service team handle issues from customers around the world. The company wants to evaluate the performance of the translation tool. The company sets up a parallel data process that compares the responses from the tool to responses from actual humans. Both sets of responses are generated on the same set of documents.Which strategy should the company use to evaluate the translation tool?
+
+A.Use the Bilingual Evaluation Understudy (BLEU) score to estimate the absolute translation quality of the two methods.
+B.Use the Bilingual Evaluation Understudy (BLEU) score to estimate the relative translation quality of the two methods.
+C.Use the BERTScore to estimate the absolute translation quality of the two methods.
+D.Use the BERTScore to estimate the relative translation quality of the two methods.
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308674-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+224.
+
+An AI practitioner wants to generate more diverse and more creative outputs from a large language model (LLM).How should the AI practitioner adjust the inference parameter?
+
+A.Increase the temperature value.
+B.Decrease the Top K value.
+C.Increase the response length.
+D.Decrease the prompt length.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308675-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+225.
+
+A company has developed custom computer vision models. The company needs a user-friendly interface for data labeling to minimize model mistakes on new real-world data.Which AWS service, feature, or tool meets these requirements?
+
+A.Amazon SageMaker Ground Truth
+B.Amazon SageMaker Canvas
+C.Amazon Bedrock playground
+D.Amazon Bedrock Agents
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308676-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+226.
+
+A company is integrating AI into its employee recruitment and hiring solution. The company wants to mitigate bias risks and ensure responsible AI practices while prioritizing equitable hiring decisions.Which core dimensions of responsible AI should the company consider? (Choose two.)
+
+A.Fairness
+B.Tolerance
+C.Flexibility
+D.Open source
+E.Transparency
+
+정답: AE
+
+url: https://www.examtopics.com/discussions/amazon/view/308677-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+227.
+
+A financial company has deployed an ML model to predict customer churn. The model has been running in production for 1 week. The company wants to evaluate how accurately the model predicts churn compared to actual customer behavior.Which metric meets these requirements?
+
+A.Root mean squared error (RMSE)
+B.Return on investment (ROI)
+C.F1 score
+D.Bilingual Evaluation Understudy (BLEU) score
+
+정답: C
+
+url: https://www.examtopics.com/discussions/amazon/view/308678-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+228.
+
+A company has a generative AI application that uses a pre-trained foundation model (FM) on Amazon Bedrock. The company wants the FM to include more context by using company information.Which solution meets these requirements MOST cost-effectively?
+
+A.Use Amazon Bedrock Knowledge Bases.
+B.Choose a different FM on Amazon Bedrock.
+C.Use Amazon Bedrock Agents.
+D.Deploy a custom model on Amazon Bedrock.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308679-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+229.
+
+HOTSPOT-A company is using Amazon SageMaker to develop AI models.Select the correct SageMaker feature or resource from the following list for each step in the AI model lifecycle workflow. Each SageMaker feature or resource should be selected one time or not at all.
+
+이미지 포함 지문(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image19.png)
+
+
+
+정답: 이미지 포함 답안(https://img.examtopics.com/aws-certified-ai-practitioner-aif-c01/image20.png)
+
+url: https://www.examtopics.com/discussions/amazon/view/308680-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+230.
+
+A food service company wants to collect a dataset to predict customer food preferences. The company wants to ensure that the food preferences of all demographics are included in the data.Which dataset characteristic does this scenario present?
+
+A.Accuracy
+B.Diversity
+C.Recency bias
+D.Reliability
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308681-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+231.
+
+A company wants to create a chatbot that answers questions about human resources policies. The company is using a large language model (LLM) and has a large digital documentation base.Which technique should the company use to optimize the generated responses?
+
+A.Use Retrieval Augmented Generation (RAG).
+B.Use few-shot prompting.
+C.Set the temperature to 1.
+D.Decrease the token size.
+
+정답: A
+
+url: https://www.examtopics.com/discussions/amazon/view/308682-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+232.
+
+An education company is building a chatbot whose target audience is teenagers. The company is training a custom large language model (LLM). The company wants the chatbot to speak in the target audience's language style by using creative spelling and shortened words.Which metric will assess the LLM's performance?
+
+A.F1 score
+B.BERTScore
+C.Recall-Oriented Understudy for Gisting Evaluation (ROUGE)
+D.Bilingual Evaluation Understudy (BLEU) score
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308683-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
+
+233.
+
+A customer service team is developing an application to analyze customer feedback and automatically classify the feedback into different categories. The categories include product quality, customer service, and delivery experience.Which A1 concept does this scenario present?
+
+A.Computer vision
+B.Natural language processing (NLP)
+C.Recommendation systems
+D.Fraud detection
+
+정답: B
+
+url: https://www.examtopics.com/discussions/amazon/view/308684-exam-aws-certified-ai-practitioner-aif-c01-topic-1-question/
+
+------------------------------------------------------------
